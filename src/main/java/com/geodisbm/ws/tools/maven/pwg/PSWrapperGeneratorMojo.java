@@ -26,9 +26,9 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.FileUtils;
 
-import com.geodisbm.ws.tools.generator.Marshaller;
-import com.geodisbm.ws.tools.generator.PSGenerator;
-import com.geodisbm.ws.tools.generator.StoredProcedure;
+import com.geodisbm.ws.tools.generator.engine.PSGenerator;
+import com.geodisbm.ws.tools.generator.marshaller.Marshaller;
+import com.geodisbm.ws.tools.generator.marshaller.StoredProcedure;
 
 /**
  * Goal which generates java wrapper around a Stored Procedure based on a

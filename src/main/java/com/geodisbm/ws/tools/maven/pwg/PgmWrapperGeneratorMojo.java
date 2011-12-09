@@ -16,16 +16,14 @@ package com.geodisbm.ws.tools.maven.pwg;
  * limitations under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
-import com.geodisbm.ws.tools.generator.ParameterContainer;
-import com.geodisbm.ws.tools.generator.PgmGenerator;
-import com.geodisbm.ws.tools.generator.Marshaller;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import com.geodisbm.ws.tools.generator.engine.PgmGenerator;
+import com.geodisbm.ws.tools.generator.marshaller.Marshaller;
+import com.geodisbm.ws.tools.generator.marshaller.ParameterContainer;
 
 /**
  * Goal which generates java wrapper around a PGM program based on a description file.

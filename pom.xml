@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>com.geodisbm.ws.tools</groupId>
 			<artifactId>iseries-wrapper-generator</artifactId>
-			<version>1.2.2</version>
+			<version>1.2.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>

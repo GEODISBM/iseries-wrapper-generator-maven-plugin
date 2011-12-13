@@ -18,73 +18,33 @@ package com.geodisbm.ws.tools.maven.pwg;
 
 import java.io.File;
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-
 import com.geodisbm.ws.tools.generator.engine.PgmGenerator;
 import com.geodisbm.ws.tools.generator.marshaller.Marshaller;
-import com.geodisbm.ws.tools.generator.marshaller.ParameterContainer;
+import com.geodisbm.ws.tools.generator.marshaller.PGM;
 
 /**
  * Goal which generates java wrapper around a PGM program based on a description file.
  * 
  * @goal generate-pgm-wrapper
- * 
  * @phase generate-sources
  */
-public class PgmWrapperGeneratorMojo extends AbstractMojo {
-  
-  private static final String PS = System.getProperty("file.separator");
-
-  /**
-   * Location of the description file
-   * @parameter expression="${basedir}/src/main/resources"
-   */
-  private File inputDescriptionFile;
-  
-  /**
-   * Location of the outputDirectory
-   * 
-   * @parameter expression="${basedir}/src/main/java"
-   * @required
-   */
-  private File outputDirectory;
-  
-  /**
-   * PGM Name
-   * @parameter
-   * @required
-   */
-  private String pgmName;
-  
-  /**
-   * Package name
-   * 
-   * @parameter default-value="com.geodisbm.ws.gen"
-   * @required
-   */
-  private String packageName;
+public class PgmWrapperGeneratorMojo extends WrapperGeneratorMojo {
   
 
-  public void execute() throws MojoExecutionException {
-    getLog().info("*********************************");
-    getLog().info("*****     Generation PGM    *****");
-    getLog().info("*********************************");
-    generatePgmWrapper();
-  }
-
-  private void generatePgmWrapper() {
-    String absolutePath = inputDescriptionFile.getAbsolutePath();
+  @Override
+  protected void processInputFile(File f) {
+    String absolutePath = f.getParent();
     getLog().info("Reading input file metadatas.xml from " + absolutePath + "...");
     getLog().debug("file exists ? : " + (new File(absolutePath)).exists());
+    
     Marshaller m = new Marshaller();
-    ParameterContainer unmarshall = m.unmarshall(absolutePath);
-    getLog().debug(unmarshall.toString());
+    PGM pgm = m.unmarshallPGM(absolutePath, f.getName());
+    getLog().debug(pgm.toString());
     getLog().info("Reading done");
     
     PgmGenerator g = new PgmGenerator();
-    g.setObject(unmarshall);
-    String outputFolder = outputDirectory.getAbsolutePath() + PS + packageName.replaceAll("\\.", "\\" + PS) + PS + pgmName;
+    g.setObject(pgm);
+    String outputFolder = outputDirectory.getAbsolutePath() + PS + packageName.replaceAll("\\.", "\\" + PS) + PS + pgm.getName();
     getLog().debug("Generation root dir : " + outputFolder);
     g.setOutputFolder(outputFolder);
     getLog().info("Generating wrapper...");

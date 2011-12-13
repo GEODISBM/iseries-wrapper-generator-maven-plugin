@@ -17,14 +17,7 @@ package com.geodisbm.ws.tools.maven.pwg;
  */
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 
-import org.apache.maven.model.FileSet;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.codehaus.plexus.util.FileUtils;
 
 import com.geodisbm.ws.tools.generator.engine.PSGenerator;
 import com.geodisbm.ws.tools.generator.marshaller.Marshaller;
@@ -35,78 +28,21 @@ import com.geodisbm.ws.tools.generator.marshaller.StoredProcedure;
  * description file.
  * 
  * @goal generate-procedure-wrapper
- * 
+ * @phase generate-sources
  */
-public class PSWrapperGeneratorMojo extends AbstractMojo {
+public class PSWrapperGeneratorMojo extends WrapperGeneratorMojo {
 
-  private static final String PS = System.getProperty("file.separator");
-
-  /**
-   * Location of the description file
-   * 
-   * @parameter expression="${ps-wrapper-generator.sourceFiles}"
-   */
-  private FileSet sourceFiles;
-
-  /**
-   * Location of the outputDirectory
-   * 
-   * @parameter expression="${ps-wrapper-generator.outputDirectory}"
-   *            default-value="${basedir}/src/main/java"
-   * @required
-   */
-  private File outputDirectory;
-
-  /**
-   * Package name
-   * 
-   * @parameter expression="${ps-wrapper-generator.packageName}"
-   *            default-value="com.geodisbm.ws.gen"
-   * @required
-   */
-  private String packageName;
-
-  public void execute() throws MojoExecutionException {
-    getLog().info("****************************************");
-    getLog().info("*****     Generation SP Wrapper    *****");
-    getLog().info("****************************************");
-    generateSPWrapper();
-  }
-
-  @SuppressWarnings("unchecked")
-  private void generateSPWrapper() throws MojoExecutionException {
-    File baseDir = null;
-    try {
-      baseDir = new File(this.sourceFiles.getDirectory());
-    }
-    catch (Exception e) {
-      throw new MojoExecutionException(this.sourceFiles.getDirectory() + " is not a valid path");
-    }
-    if (baseDir != null) {
-      List<File> files = null;
-      try {
-        files = FileUtils.getFiles(baseDir, getCommaSeparatedList(this.sourceFiles.getIncludes()),
-            getCommaSeparatedList(this.sourceFiles.getExcludes()));
-        getLog().debug("Files to process : " + files.toString());
-      }
-      catch (IOException e) {
-        getLog().warn("No source file to process");
-      }
-      for (final File f : files) {
-        getLog().info("Processing " + f);
-        processPSInputFile(f);
-      }
-    }
-  }
-
-  private void processPSInputFile(File f) {
+  @Override
+  protected void processInputFile(File f) {
     String absolutePath = f.getParent();
     getLog().info("Reading input file from " + absolutePath + "...");
     getLog().debug("file exists ? : " + (new File(absolutePath)).exists());
+    
     Marshaller m = new Marshaller();
     StoredProcedure storedProcedure = m.unmarshallStoredProcedure(absolutePath, f.getName());
     getLog().debug(storedProcedure.toString());
     getLog().info("Reading done");
+    
     PSGenerator g = new PSGenerator();
     g.setObject(storedProcedure);
     String outputFolder = outputDirectory.getAbsolutePath() + PS + packageName.replaceAll("\\.", "\\" + PS) + PS
@@ -117,18 +53,7 @@ public class PSWrapperGeneratorMojo extends AbstractMojo {
     g.instantiateAll();
     getLog().info("Generating done");
   }
-
-  protected String getCommaSeparatedList(final List<String> list) {
-    final StringBuffer buffer = new StringBuffer();
-    final Iterator<String> it = list.iterator();
-    while (it.hasNext()) {
-      Object object = it.next();
-      buffer.append(object.toString());
-      if (it.hasNext()) {
-        buffer.append(",");
-      }
-    }
-    return buffer.toString();
-  }
+  
+  
 
 }

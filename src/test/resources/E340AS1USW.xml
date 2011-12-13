@@ -1,0 +1,26 @@
+<rpg name="E340AS1USW" path="/QSYS.LIB/ALTWEBOBJ.LIB/E340AS1USW.PGM" description="" version="1.0" >
+	<parameters>
+		<string name="CODSOC" size="2" way="in" description="code société" order="1" />
+		<string name="CODART" size="20" way="in" description="code article" order="2" />
+		<string name="DESART" size="40" way="in" description="désignation article" order="3" />
+		<string name="NBPOST" size="5" way="out" description="nombre de poste du tableau renvoyé" order="4" />
+		<array name="listeStructuresE340AS1USWSTRUCTURE" size="10000" way="out" description="Tableau de 10000 structures E340AS1USWSTRUCTURE" order="5" >
+			<datastructure name="E340AS1USWSTRUCTURE" description="">
+				<fields>
+					<string name="CODART" size="20" order="1" description="code article" />
+					<string name="DESPROD" size="40" order="2" description="désignation produit" />
+					<string name="SERIAL" size="1" order="3" description="Sérialisé : 1=Entrée/sortie/stock, 2=Non, 3=Sortie" />
+					<decimal name="LONGUEUR" digits="5" order="4" decimal-positions="2" description="longueur" />
+					<decimal name="LARGEUR" digits="5" order="5" decimal-positions="2" description="longueur" />
+					<decimal name="HAUTEUR" digits="5" order="6" decimal-positions="2" description="longueur" />
+					<decimal name="POIDS" digits="8" order="7" decimal-positions="3" description="longueur" />
+					<decimal name="NBUDIM" digits="10" order="8" decimal-positions="3" description="nombre d'unité pour dimensions" />
+					<string name="CDARTSUB1" size="20" order="9" description="code article de substitution 1" />
+					<string name="CDARTSUB2" size="20" order="10" description="code article de substitution 2" />
+					<string name="CDARTSUB3" size="20" order="11" description="code article de substitution 3" />
+					<string name="NOMENDOUAN" size="17" order="11" description="nomenclature douanière" />
+				</fields>
+			</datastructure>
+		</array>
+	</parameters>
+</rpg>

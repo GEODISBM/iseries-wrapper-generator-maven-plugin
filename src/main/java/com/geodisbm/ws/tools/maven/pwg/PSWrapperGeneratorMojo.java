@@ -44,6 +44,7 @@ public class PSWrapperGeneratorMojo extends WrapperGeneratorMojo {
     getLog().info("Reading done");
     
     PSGenerator g = new PSGenerator();
+    g.setOutputPackage(packageName);
     g.setObject(storedProcedure);
     String outputFolder = outputDirectory.getAbsolutePath() + PS + packageName.replaceAll("\\.", "\\" + PS) + PS
         + storedProcedure.getName();

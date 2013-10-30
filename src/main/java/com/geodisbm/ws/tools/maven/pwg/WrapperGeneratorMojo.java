@@ -54,7 +54,7 @@ public abstract class WrapperGeneratorMojo extends AbstractMojo {
 
   public void execute() throws MojoExecutionException {
     getLog().info("****************************************");
-    getLog().info("*****     Generation SP Wrapper    *****");
+    getLog().info("*****     Generation Wrapper    *****");
     getLog().info("****************************************");
     generateWrapper();
   }

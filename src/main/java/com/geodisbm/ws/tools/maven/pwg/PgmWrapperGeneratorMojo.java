@@ -43,6 +43,7 @@ public class PgmWrapperGeneratorMojo extends WrapperGeneratorMojo {
     getLog().info("Reading done");
     
     PgmGenerator g = new PgmGenerator();
+    g.setOutputPackage(packageName);
     g.setObject(pgm);
     String outputFolder = outputDirectory.getAbsolutePath() + PS + packageName.replaceAll("\\.", "\\" + PS) + PS + pgm.getName();
     getLog().debug("Generation root dir : " + outputFolder);
